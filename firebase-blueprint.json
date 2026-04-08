@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "User's health preferences and profile data.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "dietType": { "type": "string", "enum": ["Vegan", "Vegetarian", "Keto", "Paleo", "Gluten-Free", "None"] },
+        "weightGoal": { "type": "string", "enum": ["Lose Weight", "Maintain", "Gain Muscle"] },
+        "healthPreferences": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "displayName", "dietType", "weightGoal", "createdAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A food order placed by a user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "items": { "type": "array" },
+        "total": { "type": "number" },
+        "status": { "type": "string", "enum": ["Pending", "Preparing", "Out for Delivery", "Delivered"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "address": { "type": "string" }
+      },
+      "required": ["id", "userId", "items", "total", "status", "createdAt", "address"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "A healthy meal product.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "calories": { "type": "number" },
+        "image": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "category": { "type": "string", "enum": ["Breakfast", "Lunch", "Dinner", "Snack"] },
+        "healthBenefits": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id", "name", "description", "price", "calories", "image", "tags", "category", "healthBenefits"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile documents."
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Order documents."
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Product documents."
+    }
+  }
+}
